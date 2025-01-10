@@ -1,66 +1,78 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+## **Laravel QR Code Generator**  
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Aplikasi web untuk membuat QR code dari URL dengan fitur tambahan menambahkan gambar atau logo di tengah QR code. Tersedia dua opsi penggunaan: pembuatan QR code secara publik tanpa login dan pembuatan dengan login agar dapat menyimpan histori QR code yang dihasilkan.  
 
-## About Laravel
+## **Fitur Utama:**  
+- **Public QR Code Generation:**  
+   - Pengguna dapat langsung membuat QR code tanpa login.  
+   - Tidak menyimpan histori QR code yang dihasilkan.  
+- **Private QR Code Generation (dengan login):**  
+   - Pengguna perlu login untuk mengakses fitur ini.  
+   - QR code yang dihasilkan akan disimpan dalam database.  
+   - Tersedia fitur histori untuk melihat QR code yang pernah dibuat.  
+- **Fitur Tambahan:**  
+   - Input URL dan upload gambar untuk ditambahkan ke tengah QR code.  
+   - Customisasi warna QR code (misal hitam putih atau warna custom).  
+   - Pilihan ukuran QR code (small, medium, large).  
+   - Download QR code sebagai file PNG.  
+   - Validasi format URL dan gambar.  
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## **Teknologi yang Digunakan:**  
+- **Framework:** Laravel 11  
+- **Library:**  
+   - `simple-qrcode` untuk pembuatan QR code  
+   - `intervention/image` untuk manipulasi gambar  
+- **Database:** MySQL  
+- **Frontend:** Blade dan Tailwind CSS (opsional)  
+- **Deployment:** VPS dengan Ubuntu  
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## **Alur Pengguna:**  
+**Halaman Public Generation:**  
+   - Pengguna membuka halaman utama.  
+   - Memasukkan URL dan mengunggah gambar (opsional).  
+   - Memilih warna dan ukuran QR code.  
+   - Sistem menghasilkan QR code yang dapat langsung diunduh.  
+   - QR code tidak disimpan dalam database.  
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+**Halaman Private Generation (Login):**  
+   - Pengguna melakukan registrasi atau login.  
+   - Memasukkan URL, mengunggah gambar, memilih warna dan ukuran QR code.  
+   - QR code dihasilkan dan disimpan dalam database.  
+   - Pengguna dapat mengunduh QR code dan melihat histori pembuatan.  
 
-## Learning Laravel
+## **Model Data:**  
+Tabel `admin`:  
+- id  
+- username  
+- password  
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+Tabel `users`:  
+- id  
+- name  
+- email  
+- password  
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+Tabel `qr_codes`:  
+- id  
+- user_id (nullable untuk public generation)  
+- url  
+- image_path  
+- qr_image_path  
+- color  
+- size  
+- created_at  
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## **Keamanan:**  
+- Validasi URL, format gambar, warna, dan ukuran QR code.  
+- Rate limiting pada public generation untuk mencegah penyalahgunaan.  
+- Proteksi endpoint private dengan middleware autentikasi Laravel.  
+- **Admin Management:**  
+   - Hanya admin yang bisa menghapus data QR code di database.  
+   - Endpoint admin dilindungi dengan autentikasi berbasis role.  
 
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## **Pengembangan Bertahap:**  
+- Public generation dengan validasi dasar.  
+- Private generation dengan autentikasi dan penyimpanan data.  
+- Customisasi warna dan ukuran QR code.  
+- Manajemen admin untuk kontrol data.  
+- Optimasi performa dan load balancing jika trafik tinggi.  
